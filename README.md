@@ -1,12 +1,10 @@
 # milli.nvim
 
-Animated ASCII splash screens for Neovim. Drop a GIF in, get a playable
+Animated ASCII splash screens for Neovim. get a playable
 splash you can wire into dashboard-nvim, alpha-nvim, mini.starter, or a
 raw `VimEnter` autocmd.
 
-Ships with a runtime + a set of bundled splashes. Generate your own from
-any image or GIF with the [`milli`](https://github.com/amansingh-afk/milli)
-CLI.
+Ships with a runtime + a set of bundled splashes.
 
 ## Install
 

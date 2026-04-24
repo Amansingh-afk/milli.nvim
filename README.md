@@ -158,7 +158,7 @@ require("milli").vimenter({ splash = "fire", loop = true })
 
 ## Using your own splash
 
-Bring any image or GIF you want. Two steps: generate with the CLI, drop the data file in.
+Bring any image or GIF. Three steps: generate data with the CLI, drop it in your Neovim config, reference by name.
 
 **1. Install the CLI** ([@amansingh-afk/milli](https://www.npmjs.com/package/@amansingh-afk/milli)):
 
@@ -166,50 +166,55 @@ Bring any image or GIF you want. Two steps: generate with the CLI, drop the data
 npm install -g @amansingh-afk/milli
 ```
 
-**2. Generate `frames.lua`:**
+**2. Generate `frames.lua` from any image / GIF:**
 
 ```bash
 milli export mycat.gif ./out -t lua -w 60 --no-bg
 ```
 
-Flags worth knowing:
+Useful flags:
 - `-w 60` — width in columns; tune to taste
 - `--no-bg` — drop background color (cleaner on dashboards)
 - `-m braille` — try braille mode for higher-detail line art
 
-**3. Drop the file in.** Two options:
+**3. Copy `frames.lua` into your Neovim config:**
 
-### Option A — bundled (recommended)
-
-Copy `out/frames.lua` into your milli.nvim install at:
-
-```
-lua/milli/splashes/<name>.lua
+```bash
+mkdir -p ~/.config/nvim/lua/milli/splashes
+cp out/frames.lua ~/.config/nvim/lua/milli/splashes/mycat.lua
 ```
 
-Then use it by name like any bundled splash:
+Neovim's runtimepath auto-discovers `~/.config/nvim/lua/`, so this file is now a sibling to the plugin's bundled splashes — findable by the same machinery.
+
+**4. Use it:**
 
 ```lua
-require("milli").dashboard({ splash = "<name>", loop = true })
+-- same API as any bundled splash — reference by file name (without .lua)
+require("milli").dashboard({ splash = "mycat", loop = true })
 ```
 
-If you installed via lazy.nvim in mode `dir = "..."` (local path), just edit your local clone. If via GitHub, fork the repo and point lazy.nvim at your fork.
+Works with every preset:
+```lua
+require("milli").alpha({ splash = "mycat", loop = true })
+require("milli").snacks({ splash = "mycat", loop = true })
+require("milli").starter({ splash = "mycat", loop = true })
+require("milli").vimenter({ splash = "mycat", loop = true })
+```
 
-### Option B — external module
+Preview it:
+```
+:MilliPreview mycat
+```
 
-Put `frames.lua` anywhere on Neovim's runtime path (e.g. `~/.config/nvim/lua/my_splashes/mycat.lua`), then reference it by module path:
+`:MilliPreview<TAB>` tab-completes against both bundled and your own splashes.
+
+### Custom path (advanced)
+
+If you don't want to piggyback on the `milli.splashes` namespace (e.g. you keep splashes in a dotfiles module), drop the file anywhere on the runtime path and reference it by its Lua module path:
 
 ```lua
-require("milli").dashboard({ module = "my_splashes.mycat", loop = true })
-```
-
-Works with any preset (`dashboard`, `alpha`, `starter`, `snacks`, `vimenter`) — `splash =` for bundled, `module =` for external.
-
-### Preview before committing
-
-```
-:MilliPreview <name>    -- bundled
-:lua require("milli.runtime").play(0, { module = "my_splashes.mycat", loop = true })    -- external quick test
+-- ~/.config/nvim/lua/mydots/splashes/mycat.lua
+require("milli").dashboard({ module = "mydots.splashes.mycat", loop = true })
 ```
 
 

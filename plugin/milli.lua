@@ -11,7 +11,7 @@ vim.api.nvim_create_user_command("MilliPreview", function(params)
       vim.notify("milli: no bundled splashes found in lua/milli/splashes/", vim.log.levels.WARN)
       return
     end
-    vim.notify("milli: available splashes — " .. table.concat(list, ", "), vim.log.levels.INFO)
+    vim.notify("milli: available splashes - " .. table.concat(list, ", "), vim.log.levels.INFO)
     return
   end
 

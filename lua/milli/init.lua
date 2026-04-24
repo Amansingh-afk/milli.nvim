@@ -47,7 +47,7 @@ function M.starter(opts)
 end
 
 -- Preset: snacks.nvim dashboard. Attach to its FileType event.
--- User still seeds the header via a string section — see README.
+-- User still seeds the header via a string section - see README.
 function M.snacks(opts)
   opts = resolve(opts)
   vim.api.nvim_create_autocmd("FileType", {

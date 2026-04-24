@@ -156,7 +156,63 @@ return {
 require("milli").vimenter({ splash = "fire", loop = true })
 ```
 
-## Using your own splash (Coming soon)
+## Using your own splash
+
+Bring any image or GIF you want. Two steps: generate with the CLI, drop the data file in.
+
+**1. Install the CLI** ([@amansingh-afk/milli](https://www.npmjs.com/package/@amansingh-afk/milli)):
+
+```bash
+npm install -g @amansingh-afk/milli
+```
+
+**2. Generate `frames.lua`:**
+
+```bash
+milli export mycat.gif ./out -t lua --no-helper -w 60 --no-bg
+```
+
+Flags worth knowing:
+- `--no-helper` — skip `init.lua` (milli.nvim ships its own runtime, no helper needed)
+- `-w 60` — width in columns; tune to taste
+- `--no-bg` — drop background color (cleaner on dashboards)
+- `-m braille` — try braille mode for higher-detail line art
+
+**3. Drop the file in.** Two options:
+
+### Option A — bundled (recommended)
+
+Copy `out/frames.lua` into your milli.nvim install at:
+
+```
+lua/milli/splashes/<name>.lua
+```
+
+Then use it by name like any bundled splash:
+
+```lua
+require("milli").dashboard({ splash = "<name>", loop = true })
+```
+
+If you installed via lazy.nvim in mode `dir = "..."` (local path), just edit your local clone. If via GitHub, fork the repo and point lazy.nvim at your fork.
+
+### Option B — external module
+
+Put `frames.lua` anywhere on Neovim's runtime path (e.g. `~/.config/nvim/lua/my_splashes/mycat.lua`), then reference it by module path:
+
+```lua
+require("milli").dashboard({ module = "my_splashes.mycat", loop = true })
+```
+
+Works with any preset (`dashboard`, `alpha`, `starter`, `snacks`, `vimenter`) — `splash =` for bundled, `module =` for external.
+
+### Preview before committing
+
+```
+:MilliPreview <name>    -- bundled
+:lua require("milli.runtime").play(0, { module = "my_splashes.mycat", loop = true })    -- external quick test
+```
+
 
 ## Previewing a splash
 

@@ -169,11 +169,10 @@ npm install -g @amansingh-afk/milli
 **2. Generate `frames.lua`:**
 
 ```bash
-milli export mycat.gif ./out -t lua --no-helper -w 60 --no-bg
+milli export mycat.gif ./out -t lua -w 60 --no-bg
 ```
 
 Flags worth knowing:
-- `--no-helper` — skip `init.lua` (milli.nvim ships its own runtime, no helper needed)
 - `-w 60` — width in columns; tune to taste
 - `--no-bg` — drop background color (cleaner on dashboards)
 - `-m braille` — try braille mode for higher-detail line art

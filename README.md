@@ -127,14 +127,14 @@ list what's available.
 
 | | | |
 |---|---|---|
-| **aiface** <br> ![](previews/aiface.gif) | **badge** <br> ![](previews/badge.gif) | **blackhole** <br> ![](previews/blackhole.gif) |
-| **cactus** <br> ![](previews/cactus.gif) | **catwoman** <br> ![](previews/catwoman.gif) | **dancer** <br> ![](previews/dancer.gif) |
-| **dancerramp** <br> ![](previews/dancerramp.gif) | **finger** <br> ![](previews/finger.gif) | **fire** <br> ![](previews/fire.gif) |
-| **flyingcat** <br> ![](previews/flyingcat.gif) | **flyingdragon** <br> ![](previews/flyingdragon.gif) | **ididnot** <br> ![](previews/ididnot.gif) |
-| **lighningtornado** <br> ![](previews/lighningtornado.gif) | **lights** <br> ![](previews/lights.gif) | **retrocircle** <br> ![](previews/retrocircle.gif) |
-| **robot** <br> ![](previews/robot.gif) | **shader** <br> ![](previews/shader.gif) | **shadertwo** <br> ![](previews/shadertwo.gif) |
-| **skullone** <br> ![](previews/skullone.gif) | **skulltwo** <br> ![](previews/skulltwo.gif) | **skullthree** <br> ![](previews/skullthree.gif) |
-| **spinner** <br> ![](previews/spinner.gif) | **vibecat** <br> ![](previews/vibecat.gif) | **vibecattwo** <br> ![](previews/vibecattwo.gif) |
+| **aiface** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aiface.gif) | **badge** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/badge.gif) | **blackhole** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/blackhole.gif) |
+| **cactus** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/cactus.gif) | **catwoman** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/catwoman.gif) | **dancer** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancer.gif) |
+| **dancerramp** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancerramp.gif) | **finger** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/finger.gif) | **fire** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/fire.gif) |
+| **flyingcat** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/flyingcat.gif) | **flyingdragon** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/flyingdragon.gif) | **ididnot** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/ididnot.gif) |
+| **lighningtornado** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/lighningtornado.gif) | **lights** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/lights.gif) | **retrocircle** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/retrocircle.gif) |
+| **robot** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/robot.gif) | **shader** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/shader.gif) | **shadertwo** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/shadertwo.gif) |
+| **skullone** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullone.gif) | **skulltwo** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skulltwo.gif) | **skullthree** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullthree.gif) |
+| **spinner** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/spinner.gif) | **vibecat** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecat.gif) | **vibecattwo** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecattwo.gif) |
 
 ## API
 

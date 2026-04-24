@@ -8,6 +8,51 @@ Ships with a runtime + a set of bundled splashes.
 
 ![demo](demo.gif)
 
+## Bundled splashes
+
+<table>
+<tr>
+<td align="center"><b>aiface</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aiface.gif" width="380"></td>
+<td align="center"><b>badge</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/badge.gif" width="380"></td>
+<td align="center"><b>blackhole</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/blackhole.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>cactus</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/cactus.gif" width="380"></td>
+<td align="center"><b>catwoman</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/catwoman.gif" width="380"></td>
+<td align="center"><b>dancer</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancer.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>dancerramp</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancerramp.gif" width="380"></td>
+<td align="center"><b>finger</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/finger.gif" width="380"></td>
+<td align="center"><b>fire</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/fire.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>flyingcat</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/flyingcat.gif" width="380"></td>
+<td align="center"><b>flyingdragon</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/flyingdragon.gif" width="380"></td>
+<td align="center"><b>ididnot</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/ididnot.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>lighningtornado</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/lighningtornado.gif" width="380"></td>
+<td align="center"><b>lights</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/lights.gif" width="380"></td>
+<td align="center"><b>retrocircle</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/retrocircle.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>robot</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/robot.gif" width="380"></td>
+<td align="center"><b>shader</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/shader.gif" width="380"></td>
+<td align="center"><b>shadertwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/shadertwo.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>skullone</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullone.gif" width="380"></td>
+<td align="center"><b>skulltwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skulltwo.gif" width="380"></td>
+<td align="center"><b>skullthree</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullthree.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>spinner</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/spinner.gif" width="380"></td>
+<td align="center"><b>vibecat</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecat.gif" width="380"></td>
+<td align="center"><b>vibecattwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecattwo.gif" width="380"></td>
+</tr>
+</table>
+
 ## Install
 
 ### lazy.nvim
@@ -122,19 +167,6 @@ require("milli").vimenter({ splash = "fire", loop = true })
 Opens a scratch buffer, plays the splash in a loop. `q` or `<Esc>` dismisses.
 Tab-completes against bundled splashes. Run `:MilliPreview` with no arg to
 list what's available.
-
-## Bundled splashes
-
-| | | |
-|---|---|---|
-| **aiface** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aiface.gif) | **badge** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/badge.gif) | **blackhole** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/blackhole.gif) |
-| **cactus** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/cactus.gif) | **catwoman** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/catwoman.gif) | **dancer** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancer.gif) |
-| **dancerramp** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancerramp.gif) | **finger** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/finger.gif) | **fire** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/fire.gif) |
-| **flyingcat** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/flyingcat.gif) | **flyingdragon** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/flyingdragon.gif) | **ididnot** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/ididnot.gif) |
-| **lighningtornado** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/lighningtornado.gif) | **lights** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/lights.gif) | **retrocircle** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/retrocircle.gif) |
-| **robot** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/robot.gif) | **shader** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/shader.gif) | **shadertwo** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/shadertwo.gif) |
-| **skullone** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullone.gif) | **skulltwo** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skulltwo.gif) | **skullthree** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullthree.gif) |
-| **spinner** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/spinner.gif) | **vibecat** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecat.gif) | **vibecattwo** <br> ![](https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecattwo.gif) |
 
 ## API
 

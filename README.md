@@ -6,6 +6,8 @@ raw `VimEnter` autocmd.
 
 Ships with a runtime + a set of bundled splashes.
 
+![demo](demo.gif)
+
 ## Install
 
 ### lazy.nvim

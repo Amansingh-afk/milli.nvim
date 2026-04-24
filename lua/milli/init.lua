@@ -46,6 +46,16 @@ function M.starter(opts)
   })
 end
 
+-- Preset: snacks.nvim dashboard. Attach to its FileType event.
+-- User still seeds the header via a string section — see README.
+function M.snacks(opts)
+  opts = resolve(opts)
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "snacks_dashboard",
+    callback = function(args) runtime.play(args.buf, opts) end,
+  })
+end
+
 -- Preset: raw VimEnter (no dashboard plugin). Seeds the current empty
 -- buffer with frame 0 so the anchor-search finds itself, then plays.
 function M.vimenter(opts)

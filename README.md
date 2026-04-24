@@ -77,6 +77,34 @@ require("milli").alpha({ splash = "fire", loop = true })
 require("milli").starter({ splash = "fire", loop = true })
 ```
 
+## Snacks.nvim dashboard
+
+```lua
+return {
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  dependencies = { "amansingh-afk/milli.nvim" },
+  opts = function()
+    local splash = require("milli").load({ splash = "fire" })
+    return {
+      dashboard = {
+        enabled = true,
+        sections = {
+          { section = "header", text = table.concat(splash.frames[1], "\n") },
+          { section = "keys",   gap = 1, padding = 1 },
+          { section = "startup" },
+        },
+      },
+    }
+  end,
+  config = function(_, opts)
+    require("snacks").setup(opts)
+    require("milli").snacks({ splash = "fire", loop = true })
+  end,
+}
+```
+
 ## No dashboard plugin (raw VimEnter)
 
 ```lua
@@ -95,6 +123,19 @@ Opens a scratch buffer, plays the splash in a loop. `q` or `<Esc>` dismisses.
 Tab-completes against bundled splashes. Run `:MilliPreview` with no arg to
 list what's available.
 
+## Bundled splashes
+
+| | | |
+|---|---|---|
+| **aiface** <br> ![](previews/aiface.gif) | **badge** <br> ![](previews/badge.gif) | **blackhole** <br> ![](previews/blackhole.gif) |
+| **cactus** <br> ![](previews/cactus.gif) | **catwoman** <br> ![](previews/catwoman.gif) | **dancer** <br> ![](previews/dancer.gif) |
+| **dancerramp** <br> ![](previews/dancerramp.gif) | **finger** <br> ![](previews/finger.gif) | **fire** <br> ![](previews/fire.gif) |
+| **flyingcat** <br> ![](previews/flyingcat.gif) | **flyingdragon** <br> ![](previews/flyingdragon.gif) | **ididnot** <br> ![](previews/ididnot.gif) |
+| **lighningtornado** <br> ![](previews/lighningtornado.gif) | **lights** <br> ![](previews/lights.gif) | **retrocircle** <br> ![](previews/retrocircle.gif) |
+| **robot** <br> ![](previews/robot.gif) | **shader** <br> ![](previews/shader.gif) | **shadertwo** <br> ![](previews/shadertwo.gif) |
+| **skullone** <br> ![](previews/skullone.gif) | **skulltwo** <br> ![](previews/skulltwo.gif) | **skullthree** <br> ![](previews/skullthree.gif) |
+| **spinner** <br> ![](previews/spinner.gif) | **vibecat** <br> ![](previews/vibecat.gif) | **vibecattwo** <br> ![](previews/vibecattwo.gif) |
+
 ## API
 
 ```lua
@@ -105,6 +146,7 @@ require("milli").list()                -- array of bundled splash names
 require("milli").dashboard(opts)       -- autocmd preset
 require("milli").alpha(opts)
 require("milli").starter(opts)
+require("milli").snacks(opts)
 require("milli").vimenter(opts)
 ```
 

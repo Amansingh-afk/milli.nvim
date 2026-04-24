@@ -46,7 +46,7 @@ return {
   event = "VimEnter",
   dependencies = { "amansingh-afk/milli.nvim" },
   opts = function()
-    local splash = require("milli").load({ splash = "fire" })
+    local splash = require("milli").load({ splash = "finger" })
     return {
       theme = "doom",
       config = {
@@ -60,7 +60,7 @@ return {
   end,
   config = function(_, opts)
     require("dashboard").setup(opts)
-    require("milli").dashboard({ splash = "fire", loop = true })
+    require("milli").dashboard({ splash = "finger", loop = true })
   end,
 }
 ```
@@ -83,29 +83,7 @@ require("milli").starter({ splash = "fire", loop = true })
 require("milli").vimenter({ splash = "fire", loop = true })
 ```
 
-## Using your own splash
-
-1. Export with the milli CLI:
-
-   ```bash
-   milli export -t lua --no-helper -m braille --no-bg -w 60 \
-     my-source.gif /tmp/my_splash
-   ```
-
-   That writes `/tmp/my_splash/frames.lua`.
-
-2. Drop it into the plugin, renamed to `<name>.lua`:
-
-   ```bash
-   cp /tmp/my_splash/frames.lua \
-     ~/.local/share/nvim/lazy/milli.nvim/lua/milli/splashes/vision.lua
-   ```
-
-   Now referenceable as `{ splash = "vision" }`.
-
-   (If you prefer not to modify the plugin, put the file somewhere on your
-   `runtimepath` and use `{ module = "vision" }` instead of
-   `{ splash = "vision" }`.)
+## Using your own splash (Coming soon)
 
 ## Previewing a splash
 

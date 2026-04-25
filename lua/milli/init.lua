@@ -46,13 +46,22 @@ function M.starter(opts)
   })
 end
 
--- Preset: snacks.nvim dashboard. Attach to its FileType event.
--- User still seeds the header via a string section - see README.
+-- Preset: snacks.nvim dashboard. Listens for the SnacksDashboardOpened
+-- user event (fires after the initial render finishes, so the
+-- anchor-search can locate frame 0 reliably). Re-attaches on
+-- SnacksDashboardUpdatePost so window resizes don't kill the animation.
+-- User still seeds the header via `preset.header` - see README.
 function M.snacks(opts)
   opts = resolve(opts)
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "snacks_dashboard",
-    callback = function(args) runtime.play(args.buf, opts) end,
+  local function attach()
+    local buf = vim.api.nvim_get_current_buf()
+    if vim.bo[buf].filetype == "snacks_dashboard" then
+      runtime.play(buf, opts)
+    end
+  end
+  vim.api.nvim_create_autocmd("User", {
+    pattern = { "SnacksDashboardOpened", "SnacksDashboardUpdatePost" },
+    callback = function() vim.schedule(attach) end,
   })
 end
 

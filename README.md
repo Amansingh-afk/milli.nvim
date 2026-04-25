@@ -64,6 +64,16 @@ Animated ASCII splash screens for Neovim. Ships with 24 bundled splashes, and le
 <td align="center"><b>vibecat</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecat.gif" width="380"></td>
 <td align="center"><b>vibecattwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecattwo.gif" width="380"></td>
 </tr>
+<tr>
+<td align="center"><b>nebula</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/nebula.gif" width="380"></td>
+<td align="center"><b>pulse</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/pulse.gif" width="380"></td>
+<td align="center"><b>glitch</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/glitch.gif" width="380"></td>
+</tr>
+<tr>
+<td align="center"><b>aurora</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aurora.gif" width="380"></td>
+<td align="center"><b>neon</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/neon.gif" width="380"></td>
+<td align="center"><b>chrome</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/chrome.gif" width="380"></td>
+</tr>
 </table>
 
 ## Install
@@ -99,7 +109,7 @@ For dashboard-nvim / alpha-nvim / snacks.nvim / mini.starter wiring, see [Dashbo
 
 > Powered by [**milli**](https://github.com/Amansingh-afk/milli) - the ASCII engine behind this plugin. [⭐ Star it on GitHub](https://github.com/Amansingh-afk/milli) if you find it useful.
 
-The 24 bundled splashes are a starting point. Bring any image or GIF you want - a custom logo, mascot, anything - and it becomes a splash in four steps.
+The 30 bundled splashes are a starting point. Bring any image or GIF you want - a custom logo, mascot, anything - and it becomes a splash in four steps.
 
 **1. Install the CLI** ([@amansingh-afk/milli](https://www.npmjs.com/package/@amansingh-afk/milli)):
 

@@ -97,6 +97,8 @@ For dashboard-nvim / alpha-nvim / snacks.nvim / mini.starter wiring, see [Dashbo
 
 ## Using your own splash
 
+> Powered by [**milli**](https://github.com/Amansingh-afk/milli) - the ASCII engine behind this plugin. [⭐ Star it on GitHub](https://github.com/Amansingh-afk/milli) if you find it useful.
+
 The 24 bundled splashes are a starting point. Bring any image or GIF you want - a custom logo, mascot, anything - and it becomes a splash in four steps.
 
 **1. Install the CLI** ([@amansingh-afk/milli](https://www.npmjs.com/package/@amansingh-afk/milli)):

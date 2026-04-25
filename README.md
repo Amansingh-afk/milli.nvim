@@ -209,8 +209,11 @@ return {
     return {
       dashboard = {
         enabled = true,
+        preset = {
+          header = table.concat(splash.frames[1], "\n"),
+        },
         sections = {
-          { section = "header", text = table.concat(splash.frames[1], "\n") },
+          { section = "header", padding = 1 },
           { section = "keys",   gap = 1, padding = 1 },
           { section = "startup" },
         },
@@ -223,6 +226,8 @@ return {
   end,
 }
 ```
+
+`preset.header` seeds frame 0 of the splash as snacks's default header so milli's anchor-search can locate the buffer position to animate over. The splash name in `preset.header` and in `require("milli").snacks({ splash = ... })` must match.
 
 ### mini.starter
 

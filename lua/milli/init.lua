@@ -77,6 +77,7 @@ function M.vimenter(opts)
       local buf = vim.api.nvim_get_current_buf()
       vim.bo[buf].modifiable = true
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, data.frames[1])
+      vim.bo[buf].modified = false
       vim.bo[buf].modifiable = false
       vim.bo[buf].buftype = "nofile"
       vim.bo[buf].bufhidden = "wipe"

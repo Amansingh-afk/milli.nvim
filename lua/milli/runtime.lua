@@ -107,6 +107,7 @@ function M.play(buf, opts)
 
       vim.bo[buf].modifiable = true
       pcall(vim.api.nvim_buf_set_lines, buf, start_row, start_row + #padded, false, padded)
+      vim.bo[buf].modified = false
       vim.bo[buf].modifiable = false
 
       vim.api.nvim_buf_clear_namespace(buf, ns, start_row, start_row + #padded)

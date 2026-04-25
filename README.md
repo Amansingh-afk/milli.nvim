@@ -26,12 +26,17 @@ Animated ASCII splash screens for Neovim. Ships with 24 bundled splashes, and le
 <table>
 <tr>
 <td align="center"><b>aiface</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aiface.gif" width="380"></td>
-<td align="center"><b>badge</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/badge.gif" width="380"></td>
-<td align="center"><b>blackhole</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/blackhole.gif" width="380"></td>
+<td align="center"><b>attackontitan</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/attackontitan.gif" width="380"></td>
+<td align="center"><b>aurora</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aurora.gif" width="380"></td>
 </tr>
 <tr>
+<td align="center"><b>badge</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/badge.gif" width="380"></td>
+<td align="center"><b>blackhole</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/blackhole.gif" width="380"></td>
 <td align="center"><b>cactus</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/cactus.gif" width="380"></td>
+</tr>
+<tr>
 <td align="center"><b>catwoman</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/catwoman.gif" width="380"></td>
+<td align="center"><b>chrome</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/chrome.gif" width="380"></td>
 <td align="center"><b>dancer</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/dancer.gif" width="380"></td>
 </tr>
 <tr>
@@ -56,23 +61,18 @@ Animated ASCII splash screens for Neovim. Ships with 24 bundled splashes, and le
 </tr>
 <tr>
 <td align="center"><b>skullone</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullone.gif" width="380"></td>
-<td align="center"><b>skulltwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skulltwo.gif" width="380"></td>
 <td align="center"><b>skullthree</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skullthree.gif" width="380"></td>
+<td align="center"><b>skulltwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/skulltwo.gif" width="380"></td>
 </tr>
 <tr>
+<td align="center"><b>spaceship</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/spaceship.gif" width="380"></td>
 <td align="center"><b>spinner</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/spinner.gif" width="380"></td>
 <td align="center"><b>vibecat</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecat.gif" width="380"></td>
+</tr>
+<tr>
 <td align="center"><b>vibecattwo</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/vibecattwo.gif" width="380"></td>
-</tr>
-<tr>
-<td align="center"><b>nebula</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/nebula.gif" width="380"></td>
-<td align="center"><b>pulse</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/pulse.gif" width="380"></td>
-<td align="center"><b>glitch</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/glitch.gif" width="380"></td>
-</tr>
-<tr>
-<td align="center"><b>aurora</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/aurora.gif" width="380"></td>
-<td align="center"><b>neon</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/neon.gif" width="380"></td>
-<td align="center"><b>chrome</b><br><img src="https://raw.githubusercontent.com/amansingh-afk/milli.nvim/media/previews/chrome.gif" width="380"></td>
+<td></td>
+<td></td>
 </tr>
 </table>
 
@@ -109,7 +109,7 @@ For dashboard-nvim / alpha-nvim / snacks.nvim / mini.starter wiring, see [Dashbo
 
 > Powered by [**milli**](https://github.com/Amansingh-afk/milli) - the ASCII engine behind this plugin. [⭐ Star it on GitHub](https://github.com/Amansingh-afk/milli) if you find it useful.
 
-The 30 bundled splashes are a starting point. Bring any image or GIF you want - a custom logo, mascot, anything - and it becomes a splash in four steps.
+The 28 bundled splashes are a starting point. Bring any image or GIF you want - a custom logo, mascot, anything - and it becomes a splash in four steps.
 
 **1. Install the CLI** ([@amansingh-afk/milli](https://www.npmjs.com/package/@amansingh-afk/milli)):
 

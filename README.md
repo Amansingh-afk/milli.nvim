@@ -185,10 +185,15 @@ return {
   end,
   config = function(_, opts)
     require("dashboard").setup(opts)
-    require("milli").dashboard({ splash = "finger", loop = true })
+    require("milli").dashboard({ splash = "finger", loop = true, mode = "background" })
   end,
 }
 ```
+
+Set `mode = "background"` to render a full-window animated layer for `dashboard-nvim`.
+Use `winblend` (0-100, default `35`) to tune how strongly the splash overlays dashboard text.
+Use `background_fit = "stretch"` (default) to fill the full start screen,
+or `background_fit = "contain"` to keep original splash proportions centered.
 
 ### alpha-nvim
 
@@ -271,6 +276,9 @@ require("milli").vimenter(opts)        -- raw VimEnter
   module = "mysplash", -- require path to an external splash module, OR
   data = { ... },      -- the data table directly
   loop = true,         -- repeat forever (default: false - play once)
+  mode = "background", -- dashboard-nvim only: full-window floating splash layer
+  winblend = 35,       -- background mode only: overlay blend amount (0-100)
+  background_fit = "stretch", -- "stretch" (fill screen) or "contain" (center original size)
 }
 ```
 

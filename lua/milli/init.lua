@@ -24,7 +24,13 @@ function M.dashboard(opts)
   opts = resolve(opts)
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "dashboard",
-    callback = function(args) runtime.play(args.buf, opts) end,
+    callback = function(args)
+      if opts.mode == "background" then
+        runtime.play_background(vim.api.nvim_get_current_win(), opts)
+        return
+      end
+      runtime.play(args.buf, opts)
+    end,
   })
 end
 

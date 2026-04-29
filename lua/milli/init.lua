@@ -76,7 +76,29 @@ function M.vimenter(opts)
       if not ok or not data or not data.frames then return end
       local buf = vim.api.nvim_get_current_buf()
       vim.bo[buf].modifiable = true
-      vim.api.nvim_buf_set_lines(buf, 0, -1, false, data.frames[1])
+
+      -- center the ascii image in vimenter mode just like MilliPreview
+      local win_w = vim.api.nvim_win_get_width(0)
+      local win_h = vim.api.nvim_win_get_height(0)
+      local frame = data.frames[1]
+      local cols = data.cols or 0
+      if cols == 0 then
+        for _, line in ipairs(frame) do
+          if vim.fn.strdisplaywidth(line) > cols then cols = vim.fn.strdisplaywidth(line) end
+        end
+      end
+      local rows = #frame
+      local left_pad = math.max(0, math.floor((win_w - cols) / 2))
+      local top_pad  = math.max(0, math.floor((win_h - rows) / 2))
+      local pad_str = string.rep(" ", left_pad)
+
+      local lines = {}
+      for _ = 1, top_pad do table.insert(lines, "") end
+      for _, line in ipairs(frame) do table.insert(lines, pad_str .. line) end
+
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+      
       vim.bo[buf].modified = false
       vim.bo[buf].modifiable = false
       vim.bo[buf].buftype = "nofile"

@@ -53,10 +53,15 @@ end
 -- User still seeds the header via `preset.header` - see README.
 function M.snacks(opts)
   opts = resolve(opts)
+  local playing = {}
   local function attach()
     local buf = vim.api.nvim_get_current_buf()
-    if vim.bo[buf].filetype == "snacks_dashboard" then
+    if vim.bo[buf].filetype == "snacks_dashboard" and not playing[buf] then
+      playing[buf] = true
       runtime.play(buf, opts)
+      vim.api.nvim_buf_attach(buf, false, {
+        on_detach = function() playing[buf] = nil end,
+      })
     end
   end
   vim.api.nvim_create_autocmd("User", {

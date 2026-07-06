@@ -9,8 +9,10 @@ CONTENTS                                                       *milli-contents*
   4. API ............................................... |milli-api|
   5. Options ........................................... |milli-opts|
   6. Custom splashes ................................... |milli-custom|
-  7. Dashboard integrations ............................ |milli-dashboards|
-  8. Requirements ...................................... |milli-requirements|
+  7. Live shaders ...................................... |milli-shaders|
+  8. Community registry ................................ |milli-registry|
+  9. Dashboard integrations ............................ |milli-dashboards|
+  10. Requirements ..................................... |milli-requirements|
 
 ==============================================================================
 1. INTRO                                                          *milli-intro*
@@ -52,6 +54,27 @@ List bundled splash names: >lua
                         `~/.config/nvim/lua/milli/splashes/`. With no
                         argument, prints the list of available splashes.
 
+                                                               *:MilliShader*
+:MilliShader [name]     Run a live procedural shader (pure Lua, no baked
+                        frames) fullscreen in a scratch buffer. Shaders:
+                        `plasma`, `rain`, `doomfire`, `starfield`. `q` or
+                        `<Esc>` dismisses. No argument lists the shaders.
+                        See |milli-shaders|.
+
+                                                              *:MilliInstall*
+:MilliInstall {name}    Download splash {name} from the community registry
+                        into `stdpath("data")/milli/splashes/`. The file is
+                        validated in an empty Lua environment before being
+                        saved (pure data only). Requires `curl`.
+                        See |milli-registry|.
+
+                                                            *:MilliUninstall*
+:MilliUninstall {name}  Remove a registry-installed splash.
+
+                                                               *:MilliBrowse*
+:MilliBrowse            List splashes available in the registry with
+                        descriptions.
+
 ==============================================================================
 4. API                                                              *milli-api*
 
@@ -72,7 +95,26 @@ require("milli").load({opts})
                                                                   *milli.list()*
 require("milli").list()
         Returns an array of all discovered splash names (bundled +
-        user-local under `~/.config/nvim/lua/milli/splashes/`).
+        user-local under `~/.config/nvim/lua/milli/splashes/` +
+        registry-installed under `stdpath("data")/milli/splashes/`).
+
+                                                                *milli.shader()*
+require("milli").shader({buf}, {opts})
+        Paint a live procedural shader into buffer {buf}. Returns a
+        `stop()` function. {opts} fields: >lua
+
+            {
+              shader = "rain",  -- rain | plasma | doomfire | starfield
+              fps  = 20,        -- default: per-shader (18-24)
+              cols = 80,        -- default: window width
+              rows = 24,        -- default: window height
+              seed = 42,        -- rain / doomfire / starfield
+              hue  = 0.8,       -- plasma base hue, 0..1
+            }
+<
+                                                               *milli.shaders()*
+require("milli").shaders()
+        Returns the available shader names.
 
                                                             *milli.dashboard()*
 require("milli").dashboard({opts})
@@ -148,7 +190,40 @@ For a custom module path (advanced), drop the file anywhere on
 instead of `splash = "..."`.
 
 ==============================================================================
-7. DASHBOARD INTEGRATIONS                                    *milli-dashboards*
+7. LIVE SHADERS                                                *milli-shaders*
+
+Baked splashes are flipbooks; shaders compute every frame from math in
+pure Lua. They never repeat, cost no disk space, and stretch to the
+window size. Run one with |:MilliShader| or embed with |milli.shader()|.
+
+Colors are quantized to small fixed palettes so highlight-group usage
+stays bounded regardless of how long a shader runs.
+
+The milli CLI ships the same shaders (plus `tunnel` and `waves`) for the
+terminal, and can bake any of them to `frames.lua` at a fixed size: >sh
+
+    milli shader plasma -w 70 -h 16 -o ./out -t lua
+<
+
+==============================================================================
+8. COMMUNITY REGISTRY                                         *milli-registry*
+
+The registry is a GitHub repo of shared splash data files:
+https://github.com/amansingh-afk/milli-splashes
+
+|:MilliInstall| downloads into `stdpath("data")/milli/splashes/`; from
+there the splash behaves exactly like a bundled one (same `splash =`
+API, |:MilliPreview| tab-completion, |milli.list()|).
+
+Validation: candidate files are loaded in an EMPTY Lua environment and
+must evaluate to a plain frames table. Anything that calls a function,
+reads a global, or isn't pure data is rejected before it touches disk.
+
+Self-hosting: point `vim.g.milli_registry` at any URL serving the same
+layout (`index.json` + `splashes/<name>.lua`).
+
+==============================================================================
+9. DASHBOARD INTEGRATIONS                                    *milli-dashboards*
 
 dashboard-nvim, alpha-nvim, snacks.nvim, and mini.starter each have a
 dedicated preset. See the project README for full setup snippets:
@@ -159,10 +234,11 @@ For snacks.nvim specifically, `preset.header` must be seeded from
 to animate over.
 
 ==============================================================================
-8. REQUIREMENTS                                            *milli-requirements*
+10. REQUIREMENTS                                           *milli-requirements*
 
-- Neovim 0.10+ (extmarks, namespaces)
+- Neovim 0.10+ (extmarks, namespaces, |vim.system()|)
 - 'termguicolors' enabled
+- `curl` on `$PATH` (only for |:MilliInstall| / |:MilliBrowse|)
 
 Why extmarks instead of ANSI escapes: Neovim buffers strip ANSI. Colors
 are applied via |extmark| highlights with per-color groups generated on

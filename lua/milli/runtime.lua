@@ -31,14 +31,17 @@ local function anchor_in_frame0(data)
 end
 
 -- Resolve opts into a data table. Priority: data > splash > module.
+-- Splash lookup order: bundled/user-runtimepath, then registry-installed
+-- (stdpath("data")/milli/splashes via :MilliInstall).
 function M.load(opts)
   if opts.data then return opts.data end
   if opts.splash then
     local ok, mod = pcall(require, "milli.splashes." .. opts.splash)
-    if not ok then
-      error("milli.nvim: bundled splash not found: " .. tostring(opts.splash))
-    end
-    return mod
+    if ok then return mod end
+    local installed = require("milli.registry").load_installed(opts.splash)
+    if installed then return installed end
+    error("milli.nvim: splash not found: " .. tostring(opts.splash)
+      .. " (not bundled, not installed - try :MilliInstall " .. tostring(opts.splash) .. ")")
   end
   if opts.module then
     local ok, mod = pcall(require, opts.module)
@@ -50,7 +53,7 @@ function M.load(opts)
   error("milli.nvim: opts must include one of { data, splash, module }")
 end
 
--- List bundled splashes by scanning the plugin's splashes directory.
+-- List splashes: bundled (runtimepath) + registry-installed.
 function M.list()
   local files = vim.api.nvim_get_runtime_file("lua/milli/splashes/*.lua", true)
   local out = {}
@@ -62,8 +65,77 @@ function M.list()
       table.insert(out, name)
     end
   end
+  for _, name in ipairs(require("milli.registry").installed()) do
+    if not seen[name] then
+      seen[name] = true
+      table.insert(out, name)
+    end
+  end
   table.sort(out)
   return out
+end
+
+-- ---------------------------------------------------------------- shaders
+
+M.SHADERS = { "doomfire", "plasma", "rain", "starfield" }
+
+local shader_timers = {} -- buf -> generation counter, bumped to cancel loops
+
+-- Run a procedural shader live into a buffer. No baked frames: each tick the
+-- shader module computes { lines, colors } and we repaint. opts:
+--   shader = "plasma" | "rain" | "doomfire" | "starfield"  (required)
+--   cols/rows = grid size (default: current window size)
+--   fps = frame rate override (default: shader's own)
+--   seed, hue = passed through to the shader
+-- Returns a stop() function.
+function M.play_shader(buf, opts)
+  opts = type(opts) == "string" and { shader = opts } or (opts or {})
+  if not buf or not vim.api.nvim_buf_is_valid(buf) then return function() end end
+  local ok, shader = pcall(require, "milli.shaders." .. tostring(opts.shader))
+  if not ok then
+    error("milli.nvim: unknown shader: " .. tostring(opts.shader)
+      .. " (want one of: " .. table.concat(M.SHADERS, ", ") .. ")")
+  end
+
+  local win = vim.fn.bufwinid(buf)
+  local cols = opts.cols or (win ~= -1 and vim.api.nvim_win_get_width(win) or 80)
+  local rows = opts.rows or (win ~= -1 and vim.api.nvim_win_get_height(win) or 24)
+  local fps = opts.fps or shader.fps or 20
+  local delay = math.max(15, math.floor(1000 / fps))
+
+  shader_timers[buf] = (shader_timers[buf] or 0) + 1
+  local gen = shader_timers[buf]
+  local state = shader.new(cols, rows, opts)
+  local tick = 0
+
+  local function paint()
+    if not vim.api.nvim_buf_is_valid(buf) or shader_timers[buf] ~= gen then return end
+    local frame = shader.frame(state, tick)
+    tick = tick + 1
+
+    vim.bo[buf].modifiable = true
+    pcall(vim.api.nvim_buf_set_lines, buf, 0, -1, false, frame.lines)
+    vim.bo[buf].modified = false
+    vim.bo[buf].modifiable = false
+
+    vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
+    for row_i, runs in ipairs(frame.colors) do
+      for _, run in ipairs(runs) do
+        local hl = get_hl(run[3], run[4])
+        pcall(vim.api.nvim_buf_set_extmark, buf, ns, row_i - 1, run[1], {
+          end_col = run[2],
+          hl_group = hl,
+          priority = 200,
+        })
+      end
+    end
+    vim.defer_fn(paint, delay)
+  end
+
+  paint()
+  return function()
+    shader_timers[buf] = (shader_timers[buf] or 0) + 1
+  end
 end
 
 function M.play(buf, opts)

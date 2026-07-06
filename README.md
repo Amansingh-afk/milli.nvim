@@ -1,6 +1,6 @@
 # milli.nvim
 
-Animated ASCII splash screens for Neovim. Ships with 24 bundled splashes, and lets you drop in your own from any image or GIF. Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or raw `VimEnter`.
+Animated ASCII splash screens for Neovim. Ships with 24 bundled splashes, live procedural shaders (matrix rain, plasma, DOOM fire, starfield — computed in pure Lua, no frames on disk), and a community registry: `:MilliInstall <name>` pulls new splashes without leaving the editor. Bring your own from any image, GIF, or plain text via the milli CLI. Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or raw `VimEnter`.
 
 ![demo](demo.gif)
 
@@ -9,7 +9,9 @@ Animated ASCII splash screens for Neovim. Ships with 24 bundled splashes, and le
 - [Bundled splashes](#bundled-splashes)
 - [Install](#install)
 - [Quick start](#quick-start)
-- [Using your own splash](#using-your-own-splash) ← bring any image or GIF
+- [Live shaders](#live-shaders) ← infinite, zero-asset animations
+- [Community registry](#community-registry) ← `:MilliInstall`
+- [Using your own splash](#using-your-own-splash) ← bring any image, GIF, or text
 - [Dashboard integrations](#dashboard-integrations)
   - [dashboard-nvim](#dashboard-nvim)
   - [alpha-nvim](#alpha-nvim)
@@ -105,6 +107,53 @@ List bundled splash names:
 
 For dashboard-nvim / alpha-nvim / snacks.nvim / mini.starter wiring, see [Dashboard integrations](#dashboard-integrations).
 
+## Live shaders
+
+Baked splashes are flipbooks. Shaders are the opposite: **pure-Lua procedural animation computed every frame** — no data files, never repeats, resizes to your window.
+
+```vim
+:MilliShader rain       " fullscreen matrix rain
+:MilliShader plasma     " flowing color fields
+:MilliShader doomfire   " the classic PSX fire
+:MilliShader starfield  " warp speed
+```
+
+`q` or `<Esc>` dismisses. Or drive one programmatically:
+
+```lua
+-- paint a live shader into any buffer; returns a stop() function
+local stop = require("milli").shader(buf, { shader = "rain" })
+
+-- options
+require("milli").shader(buf, {
+  shader = "plasma",  -- rain | plasma | doomfire | starfield
+  fps = 20,           -- default: per-shader (18-24)
+  cols = 80,          -- default: window width
+  rows = 24,          -- default: window height
+  seed = 42,          -- rain/doomfire/starfield randomness
+  hue = 0.8,          -- plasma base hue 0..1
+})
+```
+
+Colors are quantized to a small fixed palette per shader, so they stay well under Neovim's highlight-group cap.
+
+## Community registry
+
+Install splashes shared by other users straight from Neovim — no plugin update, no manual file copying:
+
+```vim
+:MilliBrowse            " list what's in the registry
+:MilliInstall doomfire  " download → validate → ready
+:MilliPreview doomfire  " watch it
+:MilliUninstall doomfire
+```
+
+Installed splashes land in `stdpath("data")/milli/splashes/` and behave exactly like bundled ones — same `splash = "name"` API, same tab-completion.
+
+Safety: registry files must be pure data modules (the exact output of `milli export -t lua`). `:MilliInstall` loads each candidate in an **empty Lua environment** before saving — anything that calls a function, touches a global, or isn't plain frame data is rejected.
+
+Want your splash in the registry? PR it to [milli-splashes](https://github.com/amansingh-afk/milli-splashes) — it's a `frames.lua` + one line of `index.json`. Requires `curl` on `$PATH`. Point `vim.g.milli_registry` at your own URL to self-host a private registry.
+
 ## Using your own splash
 
 > Powered by [**milli**](https://github.com/Amansingh-afk/milli) - the ASCII engine behind this plugin. [⭐ Star it on GitHub](https://github.com/Amansingh-afk/milli) if you find it useful.
@@ -117,16 +166,25 @@ The 29 bundled splashes are a starting point. Bring any image or GIF you want - 
 npm install -g @amansingh-afk/milli
 ```
 
-**2. Generate `frames.lua` from any image / GIF:**
+**2. Generate `frames.lua` from any image / GIF — or from nothing:**
 
 ```bash
+# from an image or GIF
 milli export mycat.gif ./out -t lua -w 60 --no-bg
+
+# from plain text — your name in flames, glitch, matrix reveal, 8 effects
+milli text "NEOVIM" -e fire -o ./out -t lua
+milli text "RICKY" -e matrix -o ./out -t lua
+
+# from a shader — baked at a fixed size
+milli shader plasma -w 70 -h 16 -o ./out -t lua
 ```
 
 Useful flags:
 - `-w 60` - width in columns; tune to taste
 - `--no-bg` - drop background color (cleaner on dashboards)
-- `-m braille` - braille mode for higher-detail line art
+- `-m braille` - braille mode for higher-detail line art (image exports)
+- `-e <effect>` - text effects: `fire` `glitch` `wave` `matrix` `dissolve` `typewriter` `pulse` `rainbow`
 
 **3. Copy `frames.lua` into your Neovim config:**
 
@@ -254,7 +312,9 @@ Opens a scratch buffer, plays the splash in a loop. `q` or `<Esc>` dismisses. Ta
 ```lua
 require("milli").play(buf, opts)       -- paint/animate into buf
 require("milli").load(opts)            -- return the data table
-require("milli").list()                -- array of all discovered splash names
+require("milli").list()                -- all splash names (bundled + user + installed)
+require("milli").shader(buf, opts)     -- live procedural shader; returns stop()
+require("milli").shaders()             -- { "doomfire", "plasma", "rain", "starfield" }
 
 require("milli").dashboard(opts)       -- autocmd preset for dashboard-nvim
 require("milli").alpha(opts)           -- alpha-nvim

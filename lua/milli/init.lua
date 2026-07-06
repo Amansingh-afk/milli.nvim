@@ -10,6 +10,8 @@ local M = {}
 M.play = runtime.play
 M.list = runtime.list
 M.load = runtime.load
+M.shader = runtime.play_shader
+M.shaders = function() return vim.deepcopy(runtime.SHADERS) end
 
 -- A string opts value is sugar for `{ splash = "<name>" }`.
 local function resolve(opts)

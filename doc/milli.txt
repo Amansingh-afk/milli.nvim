@@ -17,9 +17,10 @@ CONTENTS                                                       *milli-contents*
 ==============================================================================
 1. INTRO                                                          *milli-intro*
 
-Animated ASCII splash screens for Neovim. Ships with 24+ bundled splashes
-and lets you bring your own from any image or GIF using the milli CLI
-(https://github.com/Amansingh-afk/milli).
+Animated ASCII splash screens for Neovim. Ships lean with 6 bundled
+splashes; 26+ more are one |:MilliInstall| away in the community registry
+(see |milli-registry|). Bring your own from any image or GIF using the
+milli CLI (https://github.com/Amansingh-afk/milli).
 
 Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or a raw
 |VimEnter| autocmd.

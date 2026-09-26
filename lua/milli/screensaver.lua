@@ -186,7 +186,6 @@ function M.disable()
   cfg = nil
   if poll then poll:stop() poll:close() poll = nil end
   pcall(vim.on_key, nil, on_key_ns)
-  pcall(vim.api.nvim_del_augroup_by_name, "milli_screensaver")
 end
 
 -- Enable the idle screensaver. See DEFAULTS for opts.
@@ -196,15 +195,10 @@ function M.enable(opts)
   if cfg.after <= 0 then cfg.after = DEFAULTS.after end
   last_input = uv.now()
 
+  -- Typed keys only (mouse and wheel arrive here too). No CursorMoved or
+  -- TextChanged autocmds: milli's own frame painting fires those every
+  -- tick on a dashboard, which would keep the timer reset forever.
   vim.on_key(on_key, on_key_ns)
-  -- Mouse/scroll and edits made by other means still count as activity.
-  local group = vim.api.nvim_create_augroup("milli_screensaver", { clear = true })
-  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "TextChanged", "TextChangedI", "ModeChanged" }, {
-    group = group,
-    callback = function()
-      if not active then last_input = uv.now() end
-    end,
-  })
 
   poll = uv.new_timer()
   poll:start(1000, 1000, tick)

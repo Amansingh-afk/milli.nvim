@@ -1,6 +1,6 @@
 # milli.nvim
 
-Animated ASCII splash screens for Neovim. Ships lean with 6 bundled splashes, live procedural shaders (matrix rain, plasma, DOOM fire, starfield — computed in pure Lua, no frames on disk), and a community registry with 26+ more splashes: `:MilliInstall <name>` pulls any of them without leaving the editor. Bring your own from any image, GIF, or plain text via the milli CLI. Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or raw `VimEnter`.
+Animated ASCII splash screens for Neovim. Ships lean with 6 bundled splashes, live procedural shaders (matrix rain, plasma, DOOM fire, starfield — computed in pure Lua, no frames on disk), an idle screensaver that runs them fullscreen, and a community registry with 26+ more splashes: `:MilliInstall <name>` pulls any of them without leaving the editor. Bring your own from any image, GIF, or plain text via the milli CLI. Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or raw `VimEnter`.
 
 ![demo](demo.gif)
 
@@ -10,6 +10,7 @@ Animated ASCII splash screens for Neovim. Ships lean with 6 bundled splashes, li
 - [Install](#install)
 - [Quick start](#quick-start)
 - [Live shaders](#live-shaders) ← infinite, zero-asset animations
+- [Screensaver](#screensaver) ← DOOM fire when you walk away
 - [Community registry](#community-registry) ← `:MilliInstall`
 - [Using your own splash](#using-your-own-splash) ← bring any image, GIF, or text
 - [Dashboard integrations](#dashboard-integrations)
@@ -115,6 +116,43 @@ require("milli").shader(buf, {
 ```
 
 Colors are quantized to a small fixed palette per shader, so they stay well under Neovim's highlight-group cap.
+
+## Screensaver
+
+Walk away, and after a few idle minutes Neovim fills the screen with a live shader (or a looping splash). Any key wakes it — the wake key is swallowed, your buffer, cursor, layout and mode are exactly as you left them.
+
+```lua
+require("milli").screensaver({ shader = "doomfire", after = 300 })
+```
+
+```lua
+-- all options (defaults shown)
+require("milli").screensaver({
+  shader = "random",  -- doomfire | rain | plasma | starfield | "random" | { "rain", "plasma" }
+  splash = nil,       -- loop a splash instead of a shader, e.g. "fire"
+  after  = 300,       -- seconds idle
+  fps    = nil,       -- shader fps override
+  bg     = nil,       -- "#000000" for a black backdrop; nil = your Normal bg
+})
+require("milli").screensaver(false)  -- off
+```
+
+lazy.nvim users can do it from `opts`:
+
+```lua
+{ "amansingh-afk/milli.nvim", lazy = false, opts = { screensaver = { after = 300 } } }
+```
+
+Try it now, no waiting:
+
+```vim
+:MilliScreensaver             " configured shader (random by default)
+:MilliScreensaver doomfire    " a specific shader
+:MilliScreensaver fire        " or any splash, centered and looping
+:MilliScreensaver off         " disable the idle timer
+```
+
+Idle means no typed key. It won't start mid-command-line, in visual/terminal mode, or while recording a macro, and it rebuilds itself on terminal resize.
 
 ## Community registry
 
@@ -294,6 +332,8 @@ require("milli").load(opts)            -- return the data table
 require("milli").list()                -- all splash names (bundled + user + installed)
 require("milli").shader(buf, opts)     -- live procedural shader; returns stop()
 require("milli").shaders()             -- { "doomfire", "plasma", "rain", "starfield" }
+require("milli").screensaver(opts)     -- idle screensaver; false to disable
+require("milli").setup({ screensaver = opts })
 
 require("milli").dashboard(opts)       -- autocmd preset for dashboard-nvim
 require("milli").alpha(opts)           -- alpha-nvim

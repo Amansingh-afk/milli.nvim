@@ -10,9 +10,10 @@ CONTENTS                                                       *milli-contents*
   5. Options ........................................... |milli-opts|
   6. Custom splashes ................................... |milli-custom|
   7. Live shaders ...................................... |milli-shaders|
-  8. Community registry ................................ |milli-registry|
-  9. Dashboard integrations ............................ |milli-dashboards|
-  10. Requirements ..................................... |milli-requirements|
+  8. Screensaver ....................................... |milli-screensaver|
+  9. Community registry ................................ |milli-registry|
+  10. Dashboard integrations ........................... |milli-dashboards|
+  11. Requirements ..................................... |milli-requirements|
 
 ==============================================================================
 1. INTRO                                                          *milli-intro*
@@ -61,6 +62,15 @@ List bundled splash names: >lua
                         `plasma`, `rain`, `doomfire`, `starfield`. `q` or
                         `<Esc>` dismisses. No argument lists the shaders.
                         See |milli-shaders|.
+
+                                                          *:MilliScreensaver*
+:MilliScreensaver [name]
+                        Start the screensaver right now. [name] is a shader
+                        (`doomfire`, `rain`, `plasma`, `starfield`) or any
+                        splash name; no argument uses the configured
+                        shader (default: random). Any key wakes it. Running
+                        it while active hides it. `:MilliScreensaver off`
+                        disables the idle timer. See |milli-screensaver|.
 
                                                               *:MilliInstall*
 :MilliInstall {name}    Download splash {name} from the community registry
@@ -116,6 +126,18 @@ require("milli").shader({buf}, {opts})
                                                                *milli.shaders()*
 require("milli").shaders()
         Returns the available shader names.
+
+                                                           *milli.screensaver()*
+require("milli").screensaver({opts})
+        Enable the idle screensaver. Pass `false` to disable. A string is
+        sugar for `{ shader = <string> }`. See |milli-screensaver| for
+        {opts}.
+
+                                                                 *milli.setup()*
+require("milli").setup({opts})
+        Global config. Today only `screensaver` is read: >lua
+            require("milli").setup({ screensaver = { after = 300 } })
+<
 
                                                             *milli.dashboard()*
 require("milli").dashboard({opts})
@@ -207,7 +229,35 @@ terminal, and can bake any of them to `frames.lua` at a fixed size: >sh
 <
 
 ==============================================================================
-8. COMMUNITY REGISTRY                                         *milli-registry*
+8. SCREENSAVER                                             *milli-screensaver*
+
+Leave Neovim idle and it covers the editor with a fullscreen float running
+a live shader (or a looping splash). Any key wakes it - and that key is
+swallowed, so nothing leaks into your buffer. Window layout, cursor and
+mode (insert included) are exactly as you left them. >lua
+
+    require("milli").screensaver({
+      shader = "random",   -- "doomfire" | "rain" | "plasma" | "starfield"
+                           -- | "random" | { "rain", "plasma" } (pick one)
+      splash = nil,        -- loop a splash instead of a shader
+      after  = 300,        -- seconds idle before it starts
+      fps    = nil,        -- shader fps override
+      bg     = nil,        -- "#000000" float background; nil = Normal bg
+      seed   = nil,        -- rain / doomfire / starfield
+      hue    = nil,        -- plasma base hue, 0..1
+    })
+
+    require("milli").screensaver(false)   -- turn it off
+<
+Idle means no typed key: mouse and edits count as activity, keys replayed
+from mappings or feedkeys do not. It won't start while you are in the
+command line, a visual/operator-pending/terminal mode, or recording a
+macro. Resizing the terminal rebuilds it at the new size.
+
+|:MilliScreensaver| starts one immediately without enabling the timer.
+
+==============================================================================
+9. COMMUNITY REGISTRY                                         *milli-registry*
 
 The registry is a GitHub repo of shared splash data files:
 https://github.com/amansingh-afk/milli-splashes
@@ -224,7 +274,7 @@ Self-hosting: point `vim.g.milli_registry` at any URL serving the same
 layout (`index.json` + `splashes/<name>.lua`).
 
 ==============================================================================
-9. DASHBOARD INTEGRATIONS                                    *milli-dashboards*
+10. DASHBOARD INTEGRATIONS                                   *milli-dashboards*
 
 dashboard-nvim, alpha-nvim, snacks.nvim, and mini.starter each have a
 dedicated preset. See the project README for full setup snippets:
@@ -235,7 +285,7 @@ For snacks.nvim specifically, `preset.header` must be seeded from
 to animate over.
 
 ==============================================================================
-10. REQUIREMENTS                                           *milli-requirements*
+11. REQUIREMENTS                                           *milli-requirements*
 
 - Neovim 0.10+ (extmarks, namespaces, |vim.system()|)
 - 'termguicolors' enabled

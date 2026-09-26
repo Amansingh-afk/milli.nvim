@@ -106,6 +106,38 @@ end, {
   end,
 })
 
+vim.api.nvim_create_user_command("MilliScreensaver", function(params)
+  local ss = require("milli.screensaver")
+  local name = params.args
+  if name == "off" then
+    ss.disable()
+    vim.notify("milli: screensaver off", vim.log.levels.INFO)
+    return
+  end
+  if ss.is_active() then ss.hide() return end
+  local opts = {}
+  if name ~= "" then
+    local runtime = require("milli.runtime")
+    if vim.tbl_contains(runtime.SHADERS, name) then
+      opts.shader = name
+    else
+      opts.splash = name
+    end
+  end
+  -- Show right now (also the quickest way to demo one); the idle timer,
+  -- if enabled via require("milli").screensaver(), keeps running.
+  ss.show(opts)
+end, {
+  nargs = "?",
+  desc = "Start the screensaver now (shader or splash name; 'off' disables the idle timer)",
+  complete = function(arglead)
+    local out = { "off" }
+    vim.list_extend(out, require("milli.runtime").SHADERS)
+    vim.list_extend(out, require("milli").list())
+    return vim.tbl_filter(function(n) return n:sub(1, #arglead) == arglead end, out)
+  end,
+})
+
 vim.api.nvim_create_user_command("MilliInstall", function(params)
   local name = params.args
   if name == "" then

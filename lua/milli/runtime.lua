@@ -30,12 +30,44 @@ local function anchor_in_frame0(data)
   return nil, nil
 end
 
+-- Pick one entry of a list. Uses the clock instead of math.random so we
+-- never touch the user's global RNG state.
+function M.pick(list)
+  if type(list) ~= "table" or #list == 0 then return nil end
+  local t = (vim.uv or vim.loop).hrtime()
+  return list[math.floor(t / 1000) % #list + 1]
+end
+
+-- `splash = "random"` (any bundled/user/installed splash) or a list of
+-- names to choose from. The choice is made once per Neovim session so the
+-- dashboard header seeded via load() and the preset that animates it agree.
+local random_picks = {}
+function M.resolve_name(splash)
+  local pool, key
+  if splash == "random" then
+    pool, key = M.list(), "*"
+  elseif type(splash) == "table" then
+    pool, key = splash, table.concat(splash, ",")
+  else
+    return splash
+  end
+  if not random_picks[key] then
+    random_picks[key] = M.pick(pool)
+    if not random_picks[key] then
+      error("milli.nvim: splash = " .. (key == "*" and '"random"' or "{...}") .. " but no splashes found")
+    end
+  end
+  return random_picks[key]
+end
+
 -- Resolve opts into a data table. Priority: data > splash > module.
 -- Splash lookup order: bundled/user-runtimepath, then registry-installed
 -- (stdpath("data")/milli/splashes via :MilliInstall).
 function M.load(opts)
+  if type(opts) == "string" then opts = { splash = opts } end
   if opts.data then return opts.data end
   if opts.splash then
+    opts = vim.tbl_extend("force", opts, { splash = M.resolve_name(opts.splash) })
     local ok, mod = pcall(require, "milli.splashes." .. opts.splash)
     if ok then return mod end
     local installed = require("milli.registry").load_installed(opts.splash)

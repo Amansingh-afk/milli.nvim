@@ -1,6 +1,6 @@
 # milli.nvim
 
-Animated ASCII splash screens for Neovim. Ships lean with 6 bundled splashes, live procedural shaders (matrix rain, plasma, DOOM fire, starfield — computed in pure Lua, no frames on disk), an idle screensaver that runs them fullscreen, and a community registry with 26+ more splashes: `:MilliInstall <name>` pulls any of them without leaving the editor. Bring your own from any image, GIF, or plain text via the milli CLI. Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or raw `VimEnter`.
+Animated ASCII splash screens for Neovim. Ships lean with 6 bundled splashes, live procedural shaders (matrix rain, plasma, DOOM fire, starfield — computed in pure Lua, no frames on disk), an idle screensaver that runs them fullscreen, and a community registry with 30+ more splashes: `:MilliInstall <name>` pulls any of them without leaving the editor. Bring your own from any image, GIF, or plain text via the milli CLI. Works with dashboard-nvim, alpha-nvim, snacks.nvim, mini.starter, or raw `VimEnter`.
 
 ![demo](demo.gif)
 
@@ -41,7 +41,9 @@ Six ship with the plugin — install is small and fast:
 </tr>
 </table>
 
-**26+ more live in the [community registry](https://github.com/amansingh-afk/milli-splashes)** — one command away, no plugin update needed:
+Can't choose? `splash = "random"` picks a different one every launch (bundled + installed).
+
+**30+ more live in the [community registry](https://github.com/amansingh-afk/milli-splashes)** — one command away, no plugin update needed:
 
 ```vim
 :MilliBrowse            " list everything
@@ -346,14 +348,18 @@ require("milli").vimenter(opts)        -- raw VimEnter
 
 ```lua
 {
-  splash = "fire",     -- bundled or user-local splash name, OR
+  splash = "fire",     -- bundled, user-local or installed splash name, OR
+  splash = "random",   -- a different one every Neovim start, OR
+  splash = { "fire", "vibecat", "aurora" },  -- random from this list, OR
   module = "mysplash", -- require path to an external splash module, OR
   data = { ... },      -- the data table directly
   loop = true,         -- repeat forever (default: false - play once)
 }
 ```
 
-A plain string is sugar for `{ splash = <string> }`. So `require("milli").dashboard("fire")` works.
+A plain string is sugar for `{ splash = <string> }`. So `require("milli").dashboard("fire")` works, and so does `require("milli").dashboard("random")`.
+
+`"random"` is picked once per session, so the header you seed with `load({ splash = "random" })` and the preset that animates it always agree.
 
 ## Requirements
 

@@ -33,8 +33,7 @@ local function pick(list)
     if list ~= "random" then return list end
     list = runtime.SHADERS
   end
-  if type(list) ~= "table" or #list == 0 then return nil end
-  return list[math.random(#list)]
+  return runtime.pick(list)
 end
 
 -- Only wake/idle on modes where swapping the current window is safe.

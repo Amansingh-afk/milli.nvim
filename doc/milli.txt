@@ -19,7 +19,7 @@ CONTENTS                                                       *milli-contents*
 1. INTRO                                                          *milli-intro*
 
 Animated ASCII splash screens for Neovim. Ships lean with 6 bundled
-splashes; 26+ more are one |:MilliInstall| away in the community registry
+splashes; 30+ more are one |:MilliInstall| away in the community registry
 (see |milli-registry|). Bring your own from any image or GIF using the
 milli CLI (https://github.com/Amansingh-afk/milli).
 
@@ -168,12 +168,17 @@ require("milli").vimenter({opts})
 All preset functions and |milli.play()| accept an {opts} table: >lua
 
     {
-      splash = "fire",     -- bundled or user-local splash name, OR
+      splash = "fire",     -- bundled, user-local or installed name, OR
+      splash = "random",   -- a different splash every Neovim start, OR
+      splash = { "fire", "aurora" },  -- random from this list, OR
       module = "mysplash", -- require path to an external splash module, OR
       data   = { ... },    -- the data table directly
       loop   = true,       -- repeat forever (default: false, play once)
     }
 <
+`"random"` (and a list) is resolved once per session: the header seeded
+with |milli.load()| and the preset that animates it always agree.
+
 A plain string is sugar for `{ splash = <string> }`, so >lua
 
     require("milli").dashboard("fire")

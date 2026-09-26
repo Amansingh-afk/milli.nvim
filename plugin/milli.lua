@@ -21,6 +21,7 @@ vim.api.nvim_create_user_command("MilliPreview", function(params)
     vim.notify("milli: splash not found: " .. name, vim.log.levels.ERROR)
     return
   end
+  name = runtime.resolve_name(name) -- "random" -> what it picked
 
   local buf = vim.api.nvim_create_buf(false, true)
   vim.bo[buf].buftype = "nofile"
@@ -64,6 +65,7 @@ end, {
     for _, name in ipairs(list) do
       if name:sub(1, #arglead) == arglead then table.insert(out, name) end
     end
+    if ("random"):sub(1, #arglead) == arglead then table.insert(out, "random") end
     return out
   end,
 })

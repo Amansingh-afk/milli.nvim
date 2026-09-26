@@ -167,12 +167,36 @@ function M.play(buf, opts)
       return
     end
     local pad_bytes = #pad
+    local last_painted = nil -- lines we last wrote, to detect a dashboard re-render
+    local misses = 0
+
+    -- Dashboards (snacks, alpha, dashboard-nvim) re-render the whole buffer
+    -- on VimResized, re-centering the header seeded from frame 0. If the
+    -- region we painted no longer holds what we wrote, the layout moved:
+    -- find frame 0's anchor again and follow it. Returns false when the
+    -- anchor is missing (mid-redraw) so the caller can retry next tick.
+    local function relocate_if_moved()
+      if not last_painted then return true end
+      local cur = vim.api.nvim_buf_get_lines(buf, start_row, start_row + #last_painted, false)
+      local moved = #cur ~= #last_painted
+      if not moved then
+        for i = 1, #cur do
+          if cur[i] ~= last_painted[i] then moved = true break end
+        end
+      end
+      if not moved then return true end
+      local row, p = locate()
+      if not row then return false end
+      start_row, pad, pad_bytes = row, p, #p
+      return true
+    end
 
     local function paint(idx)
       if not vim.api.nvim_buf_is_valid(buf) then return end
       local frame = data.frames[idx + 1]
       local colors = data.colors and data.colors[idx + 1]
       if not frame then return end
+      if not relocate_if_moved() then return false end
 
       local padded = {}
       for i, line in ipairs(frame) do padded[i] = pad .. line end
@@ -181,9 +205,10 @@ function M.play(buf, opts)
       pcall(vim.api.nvim_buf_set_lines, buf, start_row, start_row + #padded, false, padded)
       vim.bo[buf].modified = false
       vim.bo[buf].modifiable = false
+      last_painted = padded
 
       vim.api.nvim_buf_clear_namespace(buf, ns, start_row, start_row + #padded)
-      if not colors then return end
+      if not colors then return true end
       for row_i, row_runs in ipairs(colors) do
         local buf_row = start_row + row_i - 1
         for _, run in ipairs(row_runs) do
@@ -196,6 +221,7 @@ function M.play(buf, opts)
           })
         end
       end
+      return true
     end
 
     paint(0)
@@ -204,8 +230,16 @@ function M.play(buf, opts)
       if not vim.api.nvim_buf_is_valid(buf) then return end
       if idx >= #data.frames and not loop then return end
       local fi = idx % #data.frames
-      paint(fi)
-      idx = idx + 1
+      if paint(fi) == false then
+        -- Anchor gone (header replaced or dashboard mid-redraw). Hold this
+        -- frame and retry; give up after ~100 ticks so a buffer that no
+        -- longer contains the splash doesn't keep a timer alive forever.
+        misses = misses + 1
+        if misses > 100 then return end
+      else
+        misses = 0
+        idx = idx + 1
+      end
       local delay = data.delays[fi + 1] or 100
       vim.defer_fn(step, delay)
     end

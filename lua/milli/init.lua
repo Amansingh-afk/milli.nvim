@@ -50,8 +50,10 @@ end
 
 -- Preset: snacks.nvim dashboard. Listens for the SnacksDashboardOpened
 -- user event (fires after the initial render finishes, so the
--- anchor-search can locate frame 0 reliably). Re-attaches on
--- SnacksDashboardUpdatePost so window resizes don't kill the animation.
+-- anchor-search can locate frame 0 reliably). One loop per buffer: on
+-- SnacksDashboardUpdatePost (resize re-render) the running loop notices
+-- the header moved and re-locates it itself (see runtime.play), so we only
+-- attach when the buffer has no loop yet.
 -- User still seeds the header via `preset.header` - see README.
 function M.snacks(opts)
   opts = resolve(opts)
@@ -115,7 +117,22 @@ function M.vimenter(opts)
   })
 end
 
--- Reserved for future global config. No-op today.
-function M.setup(_opts) end
+-- Idle screensaver: after `after` seconds without a keypress, a fullscreen
+-- float runs a live shader (or loops a splash). Any key wakes it.
+--   require("milli").screensaver({ shader = "doomfire", after = 300 })
+-- Pass false to turn it off. See :help milli-screensaver.
+function M.screensaver(opts)
+  local ss = require("milli.screensaver")
+  if opts == false then return ss.disable() end
+  if type(opts) == "string" then opts = { shader = opts } end
+  return ss.enable(opts)
+end
+
+-- Global config. Today only `screensaver` is read:
+--   require("milli").setup({ screensaver = { shader = "rain", after = 120 } })
+function M.setup(opts)
+  opts = opts or {}
+  if opts.screensaver then M.screensaver(opts.screensaver) end
+end
 
 return M
